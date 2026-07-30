@@ -10,9 +10,4 @@ RUN curl -fsSL https://ollama.com/install.sh | bash
 EXPOSE 11434
 
 # Start Ollama and pull model at runtime
-CMD bash -c "
-    ollama serve &
-    sleep 5 &&
-    ollama pull phi3:mini &&
-    tail -f /dev/null
-"
+CMD bash -c "ollama serve & sleep 5 && ollama pull phi3:mini && tail -f /dev/null"
