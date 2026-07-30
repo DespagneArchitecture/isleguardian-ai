@@ -18,4 +18,4 @@ RUN pip3 install fastapi uvicorn
 
 EXPOSE 8000
 
-CMD bash -c "ollama serve & sleep 5 && ollama pull phi3:mini && uvicorn server:app --host 0.0.0.0 --port 8000"
+CMD bash -c "ollama serve & sleep 5 && ollama pull phi3:mini && exec uvicorn server:app --host 0.0.0.0 --port 8000"
