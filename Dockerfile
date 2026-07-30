@@ -13,9 +13,11 @@ RUN apt-get update && apt-get install -y \
 # Install Ollama
 RUN curl -fsSL https://ollama.com/install.sh | bash
 
-# Copy server code
+# Set working directory
 WORKDIR /app
-COPY server.py /app/server.py
+
+# Copy server code
+COPY server.py server.py
 
 # Install FastAPI + Uvicorn
 RUN pip3 install fastapi uvicorn
