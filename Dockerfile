@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 # Install dependencies
-RUN apt-get update && apt-get install -y curl bash ca-certificates && update-ca-certificates
+RUN apt-get update && apt-get install -y curl bash ca-certificates zstd && update-ca-certificates
 
 # Install Ollama
 RUN curl -fsSL https://ollama.com/install.sh | bash
