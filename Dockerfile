@@ -1,21 +1,9 @@
-FROM ubuntu:22.04
-
-RUN apt-get update && apt-get install -y \
-    curl \
-    bash \
-    ca-certificates \
-    zstd \
-    python3 \
-    python3-pip \
-    && update-ca-certificates
-
-RUN curl -fsSL https://ollama.com/install.sh | bash
+FROM python:3.11
 
 WORKDIR /app
-COPY server.py server.py
+COPY . /app
 
-RUN pip3 install fastapi uvicorn
+RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 8000
+CMD ["python", "main.py"]
 
-CMD bash -c "ollama serve & sleep 5 && ollama pull phi3:mini && exec uvicorn server:app --host 0.0.0.0 --port 8000"
