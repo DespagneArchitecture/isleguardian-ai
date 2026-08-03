@@ -7,16 +7,16 @@ app = FastAPI()
 
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-class GenerateRequest(BaseModel):
-    model: str
-    prompt: str
-
 VALID_GROQ_MODELS = {
     "llama3-groq-8b-8192",
     "llama3-groq-70b-8192",
     "gemma2-9b-it",
     "mixtral-8x7b-32768"
 }
+
+class GenerateRequest(BaseModel):
+    model: str
+    prompt: str
 
 @app.post("/api/generate")
 async def generate(req: GenerateRequest):
