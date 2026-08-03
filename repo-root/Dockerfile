@@ -8,6 +8,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 RUN ollama pull phi3:mini
 
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY isleguardian-ai/ /app/
+WORKDIR /app
 
 CMD ["supervisord", "-n"]
