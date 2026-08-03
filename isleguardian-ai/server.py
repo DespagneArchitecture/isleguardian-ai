@@ -18,3 +18,12 @@ def generate(req: GenerateRequest):
         stdout=subprocess.PIPE
     )
     return {"response": result.stdout.decode()}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "server:app",
+        host="0.0.0.0",
+        port=10000,
+        reload=False
+    )
