@@ -2,10 +2,10 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY ./app/
+COPY ./app /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 EXPOSE 10000
 
-CMD ["python", "server.py"]
+CMD ["python", "/app/server.py"]
