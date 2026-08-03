@@ -1,24 +1,33 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import subprocess
-import json
+from groq import Groq
+import os
 
 app = FastAPI()
+
+# Load Groq API key from Render environment variables
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 class GenerateRequest(BaseModel):
     model: str
     prompt: str
 
 @app.post("/api/generate")
-def generate(req: GenerateRequest):
-    # Call Ollama
-    result = subprocess.run(
-        ["ollama", "run", req.model],
-        input=req.prompt.encode(),
-        stdout=subprocess.PIPE
-    )
-    return {"response": result.stdout.decode()}
+async def generate(req: GenerateRequest):
+    try:
+        completion = client.chat.completions.create(
+            model=req.model,
+            messages=[
+                {"role": "user", "content": req.prompt}
+            ]
+        )
+        return {"response": completion.choices[0].message.content}
 
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# Required for Render to start Uvicorn properly
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
