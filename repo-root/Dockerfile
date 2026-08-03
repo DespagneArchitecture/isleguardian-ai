@@ -1,14 +1,17 @@
-FROM ollama/ollama:latest
+# Use official Python image
+FROM python:3.10-slim
 
-RUN apt-get update && apt-get install -y python3 python3-pip supervisor
-
+# Set working directory
 WORKDIR /app
-COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
-RUN ollama pull phi3:mini
-
+# Copy your application folder
 COPY isleguardian-ai/ /app/
-WORKDIR /app
 
-CMD ["supervisord", "-n"]
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port (Render uses 10000 internally)
+EXPOSE 10000
+
+# Start your server
+CMD ["python", "server.py"]
